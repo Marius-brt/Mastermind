@@ -114,7 +114,32 @@ public class MM {
 
 	// fonctions sur les codes pour la manche Humain
 
+	/*
+	 * pré-requis : cod est une matrice, rep est une matrice à 2 colonnes, 0 <= nbCoups <
+	 * cod.length, nbCoups < rep.length et les éléments de cod sont des entiers de 0 à
+	 * tabCouleurs.length -1 action : affiche les nbCoups premières lignes de cod (sous forme de
+	 * mots en utilisant le tableau tabCouleurs) et de rep
+	 */
+	public static void affichePlateau(int[][] cod, int[][] rep, int nbCoups, char[] tabCouleurs) {
+		if (cod[0] == null)
+			return;
+		Ut.afficherSL("-".repeat(3 + cod[0].length * 2) + "  BP   MP");
+		for (int i = 0; i < cod.length; i++) {
+			Ut.afficher("| ");
+			if (cod[i] != null) {
+				for (int c : cod[i])
+					Ut.afficher(tabCouleurs[c] + " ");
+			} else {
+				Ut.afficher(" ".repeat(cod[0].length * 2));
+			}
+			Ut.afficher("|");
+			if (rep[i] != null)
+				Ut.afficher("  " + rep[i][0] + "    " + rep[i][1]);
+			Ut.afficher("\n");
 
+		}
+		Ut.afficherSL("-".repeat(3 + cod[0].length * 2));
+	}
 
 	// ____________________________________________________________
 
@@ -325,6 +350,10 @@ public class MM {
 		int bp = saisirEntierPos();
 		Ut.afficherSL("Nombres de mal placé");
 		int mp = saisirEntierPos();
+		if (bp + mp > lgCode) {
+			Ut.afficherSL("Erreur de saisie veuillez recommencer !");
+			return reponseHumain(lgCode);
+		}
 		return new int[] {bp, mp};
 	}
 
@@ -403,6 +432,56 @@ public class MM {
 		return true;
 	}
 
+	/**
+	 * pré-requis : aucun résultat : un tableau de lgCode entiers choisis aléatoirement entre 0 et
+	 * nbCouleurs-1
+	 */
+	public static int[] codeAleat(int lgCode, int nbCouleurs) {
+		int[] c = new int[lgCode];
+		for (int i = 0; i < lgCode; i++)
+			c[i] = Ut.randomMinMax(0, nbCouleurs - 1);
+		return c;
+	}
+
+	/**
+	 * pré-requis : numMache >= 1 action : effectue la (numManche)ème manche où l'ordinateur est le
+	 * codeur et l'humain le décodeur (le paramètre numManche ne sert que pour l'affichage) résultat
+	 * : - un nombre supérieur à nbEssaisMax, calculé à partir du dernier essai du joueur humain
+	 * (cf. sujet), s'il n'a toujours pas trouvé au bout du nombre maximum d'essais - sinon le
+	 * nombre de codes proposés par le joueur humain
+	 */
+	public int mancheHumain(int lgCode, char[] tabCouleurs, int numManche, int nbEssaisMax) {
+		if (nbEssaisMax == 0)
+			return 0;
+		Ut.afficherSL("Manche humain");
+		int[] s = codeAleat(lgCode, tabCouleurs.length);
+		int nbCoups = 0;
+		int[][] cod = new int[nbEssaisMax][];
+		int[][] rep = new int[nbEssaisMax][];
+		cod[0] = propositionCodeHumain(nbCoups, lgCode, tabCouleurs);
+		rep[0] = nbBienMalPlaces(s, cod[0], tabCouleurs.length);
+		affichePlateau(cod, rep, nbCoups, tabCouleurs);
+		while (nbCoups < nbEssaisMax - 1 && rep[nbCoups][0] != lgCode) {
+			nbCoups++;
+			cod[nbCoups] = propositionCodeHumain(nbCoups, lgCode, tabCouleurs);
+			rep[nbCoups] = nbBienMalPlaces(s, cod[nbCoups], tabCouleurs.length);
+			Ut.clearConsole();
+			affichePlateau(cod, rep, nbCoups, tabCouleurs);
+			Ut.afficherSL("Résultat : " + rep[nbCoups][0] + " bien placé(s) et " + rep[nbCoups][1]
+					+ " mal placé(s)");
+		}
+		Ut.clearConsole();
+		affichePlateau(cod, rep, nbCoups, tabCouleurs);
+		if (nbCoups == nbEssaisMax - 1 && rep[nbCoups][0] != lgCode) {
+			Ut.afficherSL("Fin manche. Vous n'avez pas trouvé. Le code était "
+					+ entiersVersMot(s, tabCouleurs));
+			return nbEssaisMax + rep[nbCoups][1]
+					+ (2 * (lgCode - (rep[nbCoups][0] + rep[nbCoups][1])));
+		}
+		Ut.afficherSL("Fin manche. Vous avez trouvé ! " + entiersVersMot(s, tabCouleurs));
+		return nbCoups + 1;
+	}
+
 	// ___________________________________________________________________
 
 	// manche Ordinateur
@@ -424,7 +503,7 @@ public class MM {
 		int[][] cod = new int[nbEssaisMax][];
 		int[][] rep = new int[nbEssaisMax][];
 		cod[0] = initTab(lgCode, 0);
-		Plateau.affichePlateau(cod, rep, nbCoups, tabCouleurs);
+		affichePlateau(cod, rep, nbCoups, tabCouleurs);
 		rep[0] = reponseHumain(lgCode);
 		while (nbCoups < nbEssaisMax - 1 && rep[nbCoups][0] != lgCode) {
 			nbCoups++;
@@ -438,11 +517,11 @@ public class MM {
 				return 0;
 			}
 			Ut.clearConsole();
-			Plateau.affichePlateau(cod, rep, nbCoups, tabCouleurs);
+			affichePlateau(cod, rep, nbCoups, tabCouleurs);
 			rep[nbCoups] = reponseHumain(lgCode);
 		}
 		Ut.clearConsole();
-		Plateau.affichePlateau(cod, rep, nbCoups, tabCouleurs);
+		affichePlateau(cod, rep, nbCoups, tabCouleurs);
 		if (nbCoups == nbEssaisMax - 1 && rep[nbCoups][0] != lgCode) {
 			Ut.afficherSL("Fin manche ordi. L'ordi n'a pas trouvé.");
 			return nbEssaisMax + rep[nbCoups][1]
@@ -566,7 +645,8 @@ public class MM {
 		 * Ut.afficherSL("Score :"); Ut.afficherSL("Humain " + humain + "\nOrdinateur " + ordi);
 		 * Ut.afficherSL("--------------"); }
 		 */
-		mancheOrdinateur(3, new char[] {'a', 'b', 'c'}, 2, 5);
+		reponseHumain(3);
+		// mancheOrdinateur(3, new char[] {'a', 'b', 'c'}, 2, 5);
 	} // fin main
 
 	// ___________________________________________________________________

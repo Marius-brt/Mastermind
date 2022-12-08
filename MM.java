@@ -341,6 +341,10 @@ public class MM {
 		int bp = saisirEntierPos();
 		Ut.afficherSL("Nombres de mal placé");
 		int mp = saisirEntierPos();
+		if (bp + mp > lgCode) {
+			Ut.afficherSL("Erreur de saisie veuillez recommencer !");
+			return reponseHumain(lgCode);
+		}
 		return new int[] {bp, mp};
 	}
 
