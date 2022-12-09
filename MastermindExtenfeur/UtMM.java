@@ -126,4 +126,11 @@ public class UtMM {
 		Ut.afficherSL("Veuillez saisir un entier strictement positif pair.");
 		return saisirEntierPairPositif();
 	}
+
+	public static boolean estPresent(char[] t, char c) {
+		for (char e : t)
+			if (e == c)
+				return true;
+		return false;
+	}
 }

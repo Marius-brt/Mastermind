@@ -1,23 +1,48 @@
 public class MancheOrdinateur {
-	private Plateau p;
+	public Plateau p = new Plateau();
 
-	public MancheOrdinateur(Plateau p) {
-		this.p = p;
+	private int saisirPositifGraph(String text) {
+		Partie.lastText = null;
+		Fenetre.numberText.setText(text);
+		while (Partie.lastText == null) {
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		int v = Integer.parseInt(Partie.lastText);
+		if (v < 0) {
+			Fenetre.ShowDialog("Veuillez entrer un nombre positif", "Erreur");
+			return saisirPositifGraph(text);
+		}
+		Partie.lastText = null;
+		return v;
 	}
 
 	private int[] reponseHumain() {
-		Ut.afficherSL("Nombres de bien placé");
-		int bp = UtMM.saisirEntierPos();
-		Ut.afficherSL("Nombres de mal placé");
-		int mp = UtMM.saisirEntierPos();
+		int bp, mp = 0;
+		if (Partie.graphicalMode) {
+			bp = saisirPositifGraph("Saisir nombre de BP");
+			mp = bp == Code.lgCode ? 0 : saisirPositifGraph("Saisir nombre de MP");
+		} else {
+			Ut.afficherSL("Nombres de bien placé");
+			bp = UtMM.saisirEntierPos();
+			if (bp != Code.lgCode) {
+				Ut.afficherSL("Nombres de mal placé");
+				mp = UtMM.saisirEntierPos();
+			}
+		}
 		if (bp + mp > Code.lgCode) {
 			Ut.afficherSL("Erreur de saisie veuillez recommencer !");
 			return reponseHumain();
 		}
+		if (Partie.graphicalMode)
+			Fenetre.numberText.setText("");
 		return new int[] {bp, mp};
 	}
 
-	private boolean passeCodeSuivantLexicoCompat(Code cod1) {
+	public boolean passeCodeSuivantLexicoCompat(Code cod1) {
 		if (!passeCodeSuivantLexico(cod1))
 			return false;
 		while (!estCompat(cod1))
@@ -26,7 +51,7 @@ public class MancheOrdinateur {
 		return true;
 	}
 
-	private boolean passeCodeSuivantLexico(Code cod1) {
+	public static boolean passeCodeSuivantLexico(Code cod1) {
 		int i = Code.lgCode - 1;
 		while (i >= 0 && cod1.cod[i] == Couleur.nbCouleurs() - 1) {
 			i--;
@@ -46,7 +71,7 @@ public class MancheOrdinateur {
 
 	private boolean estCompat(Code cod1) {
 		for (int i = 0; i < p.nbCoups(); i++) {
-			int[] res = UtMM.nbBienMalPlaces(cod1, p.getCode(i));
+			int[] res = UtMM.nbBienMalPlaces(cod1, p.getCod(i));
 			if (res[0] != p.getRep(i)[0] || res[1] != p.getRep(i)[1]) {
 				return false;
 			}
@@ -55,7 +80,8 @@ public class MancheOrdinateur {
 	}
 
 	public int Joue() {
-		Ut.afficherSL("Manche ordinateur");
+		if (!Partie.graphicalMode)
+			Ut.afficherSL("Manche ordinateur");
 		p.addCod(new Code());
 		p.affichePlateau();
 		p.addRep(reponseHumain());
@@ -63,25 +89,39 @@ public class MancheOrdinateur {
 			p.addCoups();
 			p.addCod(new Code(UtMM.copieTab(p.getLastCod().cod)));
 			if (!passeCodeSuivantLexicoCompat(p.getCod())) {
-				Ut.afficherSL("Erreur ou triche !");
+				if (Partie.graphicalMode)
+					Fenetre.ShowDialog("Erreur ou triche sur le nombre de BP et MP !", "Erreur");
+				else
+					Ut.afficherSL("Erreur ou triche !");
 				/*
 				 * Ut.afficher("Saisir votre code : "); String mot = Ut.saisirChaine();
 				 * afficheErreurs(mot, cod, rep, nbCoups, lgCode, tabCouleurs);
 				 */
 				return 0;
 			}
-			Ut.clearConsole();
+			if (!Partie.graphicalMode)
+				Ut.clearConsole();
 			p.affichePlateau();
 			p.addRep(reponseHumain());
 		}
-		Ut.clearConsole();
+		if (!Partie.graphicalMode)
+			Ut.clearConsole();
 		p.affichePlateau();
 		if (p.nbCoups() == Plateau.nbEssaisMax() - 1 && p.getRep()[0] != Code.lgCode) {
-			Ut.afficherSL("Fin manche ordi. L'ordi n'a pas trouvé.");
+			if (Partie.graphicalMode)
+				Fenetre.ShowDialog("L'ordinateur n'a pas trouvé votre code !", "Manche terminée");
+			else
+				Ut.afficherSL("Fin manche ordi. L'ordinateur n'a pas trouvé votre code !");
 			return Plateau.nbEssaisMax() + p.getRep()[1]
 					+ (2 * (Code.lgCode - (p.getRep()[0] + p.getRep()[1])));
 		}
-		Ut.afficherSL("Fin manche ordi. L'ordi a trouvé.");
+		if (Partie.graphicalMode)
+			Fenetre.ShowDialog(
+					"L'ordinateur a trouvé votre code en " + (p.nbCoups() + 1) + " coups !",
+					"Manche terminée");
+		else
+			Ut.afficherSL("Fin manche ordi. L'ordinateur a trouvé votre code en "
+					+ (p.nbCoups() + 1) + " coups !");
 		return p.nbCoups() + 1;
 	}
 }

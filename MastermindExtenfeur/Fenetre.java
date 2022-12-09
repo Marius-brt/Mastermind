@@ -1,30 +1,53 @@
-package Graphical;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.AbstractDocument;
 import java.awt.*;
+import java.awt.event.*;
 
 public class Fenetre extends JFrame {
 
 	private static boolean thereIsInstance = false;
 	private static Fenetre THEFENETRE = null;
+
 	private static JLabel round = new JLabel("Vous êtes le décodeur", SwingConstants.CENTER);
 	public static JLabel score = new JLabel("Ordi 0 - Humain 4", SwingConstants.CENTER);
+	public static JTextArea cods = new JTextArea("");
+	public static JLabel numberText = new JLabel("");
+
 	private static JPanel codePanel = new JPanel(new BorderLayout());;
 	private static JPanel numberPanel = new JPanel(new BorderLayout());
 	private static JPanel mainPanel = new JPanel(new BorderLayout());
+	public static ColorsPanel colorsPanel = new ColorsPanel();
 
 	private Fenetre(int w, int h, String titre) {
 		setTitle(titre);
 		setSize(w, h);
 		JButton button = Button("Ok");
 		JButton button2 = Button("Ok");
-		JPanel codeField = textField("code", 10, "^[a-zA-Z]{0,4}$");
-		JPanel numberField = textField("nombre", 10, "^[0-9]*$");
+		JTextField codeTextField = new JTextField();
+		JTextField numTextField = new JTextField();
+		JPanel codeField = textField(codeTextField, new JLabel("code"), 10,
+				"^[a-zA-Z]{0," + Code.lgCode + "}$");
+		JPanel numberField = textField(numTextField, numberText, 10, "^[0-9]*$");
 
 		codePanel.add(button, BorderLayout.LINE_END);
 		codePanel.add(codeField, BorderLayout.LINE_START);
+
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Partie.lastText = codeTextField.getText();
+				codeTextField.setText("");
+			}
+		});
+
+		button2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Partie.lastText = numTextField.getText();
+				numTextField.setText("");
+			}
+		});
 
 		numberPanel.add(button2, BorderLayout.LINE_END);
 		numberPanel.add(numberField, BorderLayout.LINE_START);
@@ -35,7 +58,11 @@ public class Fenetre extends JFrame {
 
 		Border padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 
+		colorsPanel.setBackground(Color.black);
+		colorsPanel.setOpaque(false);
+
 		mainPanel.setBorder(padding);
+		mainPanel.add(colorsPanel, BorderLayout.CENTER);
 		mainPanel.add(codePanel, BorderLayout.PAGE_END);
 		mainPanel.add(scorePanel, BorderLayout.PAGE_START);
 
@@ -61,20 +88,22 @@ public class Fenetre extends JFrame {
 		return button;
 	}
 
-	private JPanel textField(String text, int columns, String regex) {
+	private JPanel textField(JTextField field, JLabel label, int columns, String regex) {
 		JPanel panel = new JPanel(new BorderLayout());
 		Font fieldFont = new Font("Arial", Font.PLAIN, 20);
-		JTextField field = new JTextField();
 		field.setFont(fieldFont);
 		field.setBackground(Color.white);
 		field.setForeground(Color.gray.brighter());
 		field.setForeground(Color.BLACK);
 		field.setColumns(columns);
-		JLabel label = new JLabel(text);
 		panel.add(label, BorderLayout.PAGE_START);
 		panel.add(field, BorderLayout.PAGE_END);
 		((AbstractDocument) field.getDocument()).setDocumentFilter(new RegexFilter(regex));
 		return panel;
+	}
+
+	public static void ShowDialog(String msg, String title) {
+		JOptionPane.showMessageDialog(getInstance(), msg, title, JOptionPane.DEFAULT_OPTION);
 	}
 
 	public static void createFenetre(int w, int h, String titre) {
@@ -96,20 +125,23 @@ public class Fenetre extends JFrame {
 			mainPanel.remove(numberPanel);
 			mainPanel.add(codePanel, BorderLayout.PAGE_END);
 		}
+		getInstance().revalidate();
 	}
 
 	public static void showEnd(int scoreOrdi, int scoreHum) {
 		getInstance().getContentPane().remove(mainPanel);
-		mainPanel = new JPanel(new BorderLayout());
+		JPanel mainPanel = new JPanel(new BorderLayout());
 		String endText = "Egalité !";
 		if (scoreOrdi < scoreHum)
 			endText = "Victoire de l'ordinateur !";
 		else if (scoreOrdi > scoreHum)
 			endText = "Vous avez gagné !";
 		JLabel label = new JLabel(endText);
+		label.setFont(new Font("Arial", Font.BOLD, 20));
 		label.setHorizontalAlignment(JLabel.CENTER);
 		label.setVerticalAlignment(JLabel.CENTER);
 		mainPanel.add(label, BorderLayout.CENTER);
 		getInstance().getContentPane().add(mainPanel);
+		getInstance().revalidate();
 	}
 }

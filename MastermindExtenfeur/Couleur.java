@@ -28,4 +28,21 @@ public class Couleur {
 	public static char charAt(int i) {
 		return tabCouleurs[i];
 	}
+
+	public static char[] saisirCouleurs() {
+		Ut.afficherSL("Renseignez le nombre de couleurs");
+		int n = UtMM.saisirEntierPositif();
+		char[] cs = new char[n];
+		for (int x = 0; x < n; x++) {
+			Ut.afficher("Saisir une couleur : ");
+			char c = Ut.saisirCaractere();
+			if (UtMM.estPresent(cs, c)) {
+				Ut.afficherSL("Couleur déjà renseigné !");
+				x--;
+			} else {
+				cs[x] = c;
+			}
+		}
+		return cs;
+	}
 }

@@ -1,34 +1,28 @@
-import Graphical.Fenetre;
-
 public class MainMasterMind {
 	public static void main(String[] args) {
 		Ut.clearConsole();
-		Couleur.setTabCouleurs(new char[] {'a', 'b', 'c'});
-		Code.lgCode = 3;
-		int scoreOrdi = 0, scoreHum = 0;
-		Fenetre.createFenetre(300, 500, "MasterMind");
-		Fenetre.score.setText("Ordinateur " + scoreOrdi + " - Humain " + scoreHum);
+		Ut.afficher("Lancer la version graphique ? (Y/N) : ");
+		char c = Ut.saisirCaractere();
+		Ut.afficherSL("Nombre de manches");
+		int manches = UtMM.saisirEntierPairPositif();
 
+		if (Character.toLowerCase(c) == 'y') {
+			Couleur.setTabCouleurs(new char[] {'r', 'v', 'b'});
+			Code.lgCode = 3;
+			Plateau.setNbEssaisMax(4);
 
-		for (int i = 1; i <= 2; i++) {
-			Fenetre.setRoundType(i % 2 == 0);
-			if (i % 2 == 0) {
-				MancheOrdinateur mo = new MancheOrdinateur(new Plateau(5));
-				scoreOrdi = mo.Joue();
-			} else {
-				MancheHumain hm = new MancheHumain(new Plateau(4));
-				scoreHum = hm.Joue();
-
-			}
-			Fenetre.score.setText("Ordinateur " + scoreOrdi + " - Humain " + scoreHum);
+			Partie.graphicalMode = true;
+			Fenetre.createFenetre(300, 500, "MasterMind");
+			Fenetre.score.setText("Ordinateur 0 - Humain 0");
+		} else {
+			Ut.afficherSL("Essais max");
+			Plateau.setNbEssaisMax(UtMM.saisirEntierPositif());
+			Ut.afficherSL("Longueur code");
+			Code.lgCode = UtMM.saisirEntierPositif();
+			Couleur.setTabCouleurs(Couleur.saisirCouleurs());
 		}
 
-
-
-		/*
-		 * MancheOrdinateur mo = new MancheOrdinateur(new Plateau(5)); mo.Joue();
-		 */
-		Fenetre.showEnd(3, 2);
-		// Fenetre.getInstance().dispose();
+		Thread t = new Partie(manches);
+		t.run();
 	}
 }
