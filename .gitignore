@@ -1,1 +1,2 @@
-/Graphical2/Mastermind/target/
+*.class
+/.vscode
