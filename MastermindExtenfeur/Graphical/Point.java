@@ -1,16 +1,22 @@
+package Graphical;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/* Auteur principal : Loic Wisniewski ; date de creation : decembre 2014 ; mise a jour : 1 decembre 2014  */
+/*
+ * Auteur principal : Loic Wisniewski ; date de creation : decembre 2014 ; mise a jour : 1 decembre
+ * 2014
+ */
 
 public class Point {
 
     private Color c;
     private int x;
     private int y;
-    private static List<Point> InstanceList = new ArrayList<>(); // liste des instances de la classe, pour les afficher simplement.
+    private static List<Point> InstanceList = new ArrayList<>(); // liste des instances de la
+                                                                 // classe, pour les afficher
+                                                                 // simplement.
 
     public Point(int posx, int posy) { // constructeur minimal
         this.x = posx;
@@ -50,11 +56,13 @@ public class Point {
         return y;
     }
 
-    public static Point getInstance(int id) { // methode de classe permettant de recuperer l'instance numero 'id' (sans modifier la liste)
+    public static Point getInstance(int id) { // methode de classe permettant de recuperer
+                                              // l'instance numero 'id' (sans modifier la liste)
         return InstanceList.get(id);
     }
 
-    public static int numberInstances() { // utile pour afficher tous les points crees : boucle de id=0 a id=Point.numerInstances
+    public static int numberInstances() { // utile pour afficher tous les points crees : boucle de
+                                          // id=0 a id=Point.numerInstances
         return InstanceList.size();
     }
 

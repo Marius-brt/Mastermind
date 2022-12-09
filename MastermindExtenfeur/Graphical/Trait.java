@@ -1,13 +1,20 @@
+package Graphical;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/* Auteur principal : Loic Wisniewski ; date de creation : decembre 2014 ; mise a jour : 1 decembre 2014  */
+/*
+ * Auteur principal : Loic Wisniewski ; date de creation : decembre 2014 ; mise a jour : 1 decembre
+ * 2014
+ */
 
 public class Trait {
 
-    /* Classe permettant de dessiner des segments. Classe similaire a Point... qui est plus commentee ! */
+    /*
+     * Classe permettant de dessiner des segments. Classe similaire a Point... qui est plus
+     * commentee !
+     */
 
     private Color c;
     private int xA;
