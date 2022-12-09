@@ -35,7 +35,7 @@ public class Partie extends Thread {
 		else {
 			if (scoreOrdi < scoreJoueur)
 				result = "Victoire de l'ordinateur !";
-			if (scoreJoueur < scoreJoueur)
+			if (scoreJoueur < scoreOrdi)
 				result = "Vous avez gagné !";
 			Ut.afficherSL(result);
 		}

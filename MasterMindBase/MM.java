@@ -293,7 +293,8 @@ public class MM {
 			return nbEssaisMax + rep[nbCoups][1]
 					+ (2 * (lgCode - (rep[nbCoups][0] + rep[nbCoups][1])));
 		}
-		Ut.afficherSL("Fin manche. Vous avez trouvé !");
+		Ut.afficherSL(
+				"Bravo vous avez trouvé le code de l'ordinateur en " + (nbCoups + 1) + " coups !");
 		return nbCoups + 1;
 	}
 
@@ -342,7 +343,7 @@ public class MM {
 		int mp = 0;
 		if (bp != lgCode) {
 			Ut.afficherSL("Nombres de mal placé");
-			mp = UtMM.saisirEntierPos();
+			mp = saisirEntierPos();
 		}
 		if (bp + mp > lgCode) {
 			Ut.afficherSL("Erreur de saisie veuillez recommencer !");
@@ -461,11 +462,12 @@ public class MM {
 			rep[nbCoups] = reponseHumain(lgCode);
 		}
 		if (nbCoups == nbEssaisMax - 1 && rep[nbCoups][0] != lgCode) {
-			Ut.afficherSL("Fin manche ordi. L'ordi n'a pas trouvé.");
+			Ut.afficherSL("Fin manche ordi. L'ordi n'a pas trouvé votre code.");
 			return nbEssaisMax + rep[nbCoups][1]
 					+ 2 * (lgCode - (rep[nbCoups][0] + rep[nbCoups][1]));
 		}
-		Ut.afficherSL("Fin manche ordi. L'ordi a trouvé.");
+		Ut.afficherSL("Fin manche ordi. L'ordinateur a trouvé votre code en " + (nbCoups + 1)
+				+ " coups !");
 		return nbCoups + 1;
 	}
 
@@ -592,6 +594,13 @@ public class MM {
 			Ut.afficherSL("Humain " + humain + "\nOrdinateur " + ordi);
 			Ut.afficherSL("--------------");
 		}
+		String result = "Egalité !";
+		if (ordi < humain)
+			result = "Victoire de l'ordinateur !";
+		if (humain < ordi)
+			result = "Vous avez gagné !";
+		Ut.afficherSL(result);
+
 	} // fin main
 
 	// ___________________________________________________________________

@@ -20,6 +20,7 @@ public class Statistics {
 		Code cod = new Code("a".repeat(Code.lgCode));
 		int c = 0, sumB = 0, maxB = 0;
 		String maxCodB = "";
+		Ut.afficherSL((int) Math.pow(Couleur.nbCouleurs(), Code.lgCode) + " codes à tester...");
 		long startTime = System.currentTimeMillis();
 		while (c == 0 || MancheOrdinateur.passeCodeSuivantLexico(cod)) {
 			c++;
@@ -31,14 +32,16 @@ public class Statistics {
 			}
 		}
 		long endTime = System.currentTimeMillis();
-		PrintResult("Algo Basic", c, sumB, maxB, maxCodB, endTime - startTime);
+		Ut.clearConsole();
+		Ut.afficherSL("[RESULTATS]\n");
+		PrintResult("- Algo Basic", c, sumB, maxB, maxCodB, endTime - startTime);
 		Ut.afficherSL("[TOTAL] " + c + " codes");
 	}
 
 	private static void PrintResult(String algoName, int count, int sum, int max, String maxCod,
 			long duration) {
-		Ut.afficherSL("--------------\n" + algoName + ":\nMoyenne : " + (float) (sum / count)
-				+ " iterations | Max : " + max + " iterations (" + maxCod + ") | Durée : "
-				+ duration + "ms\n--------------");
+		Ut.afficherSL(algoName + "\nMoyenne : " + (float) (sum / count) + " propositions | Max : "
+				+ max + " propositions (" + maxCod + ") | Durée : " + duration
+				+ "ms\n--------------");
 	}
 }

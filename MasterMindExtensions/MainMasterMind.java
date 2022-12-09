@@ -9,7 +9,7 @@ public class MainMasterMind {
 		if (Character.toLowerCase(c) == 'y') {
 			Couleur.setTabCouleurs(new char[] {'r', 'v', 'b'});
 			Code.lgCode = 3;
-			Plateau.setNbEssaisMax(4);
+			Plateau.setNbEssaisMax(5);
 
 			Partie.graphicalMode = true;
 			Fenetre.createFenetre(300, 500, "MasterMind");
