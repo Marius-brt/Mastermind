@@ -28,5 +28,5 @@ Version extensions
 
 	1 - Se rendre dans le dossier "MasterMindExtensions"
 	2 - Executer la commande "javac *.java && java Statistics" pour linux ou "javac *.java; java Statistics" pour Windows
-	3 - Rentrer les couleurs et la longueur du code
+	3 - Rentrer les couleurs et la longueur du code (attention l'ordre des couleurs défini l'ordre lexicographique)
 	4 - Attendre la fin des tests

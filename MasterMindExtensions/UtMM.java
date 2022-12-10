@@ -66,7 +66,8 @@ public class UtMM {
 				if (codMot.charAt(i) == Couleur.charAt(x))
 					exist = true;
 			if (!exist) {
-				Ut.afficherSL("La couleur n'existe pas.");
+				if (!Partie.graphicalMode)
+					Ut.afficherSL("La couleur n'existe pas.");
 				return false;
 			}
 		}
@@ -132,5 +133,19 @@ public class UtMM {
 			if (e == c)
 				return true;
 		return false;
+	}
+
+	public static int saisirEntierMinMax(int min, int max) {
+		Ut.afficher("Saisir un entier entre " + min + " et " + max + " : ");
+		int i = Ut.saisirEntier();
+		if (i < min) {
+			Ut.afficherSL("Entier trop petit !");
+			return saisirEntierMinMax(min, max);
+		}
+		if (i > max) {
+			Ut.afficherSL("Entier trop grand !");
+			return saisirEntierMinMax(min, max);
+		}
+		return i;
 	}
 }
