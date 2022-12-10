@@ -57,7 +57,8 @@ public class UtMM {
 
 	public static boolean codeCorrect(String codMot) {
 		if (codMot.length() != Code.lgCode) {
-			Ut.afficherSL("La longueur du code est incorrecte.");
+			if (!Partie.graphicalMode)
+				Ut.afficherSL("La longueur du code est incorrecte.");
 			return false;
 		}
 		for (int i = 0; i < codMot.length(); i++) {
@@ -128,6 +129,17 @@ public class UtMM {
 		return saisirEntierPairPositif();
 	}
 
+	public static Code saisirCode() {
+		Ut.afficher("Veuillez saisir un code : ");
+		String c = Ut.saisirChaine();
+		while (!codeCorrect(c)) {
+			Ut.afficherSL("Code incorrecte !");
+			Ut.afficher("Veuillez saisir un code : ");
+			c = Ut.saisirChaine();
+		}
+		return new Code(c);
+	}
+
 	public static boolean estPresent(char[] t, char c) {
 		for (char e : t)
 			if (e == c)
@@ -147,5 +159,12 @@ public class UtMM {
 			return saisirEntierMinMax(min, max);
 		}
 		return i;
+	}
+
+	public static void showMsg(String msg, String title) {
+		if (Partie.graphicalMode)
+			Fenetre.ShowDialog(msg, title);
+		else
+			Ut.afficherSL(msg);
 	}
 }

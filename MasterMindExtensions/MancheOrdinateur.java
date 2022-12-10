@@ -45,7 +45,7 @@ public class MancheOrdinateur {
 	public boolean passeCodeSuivantLexicoCompat(Code cod1) {
 		if (!passeCodeSuivantLexico(cod1))
 			return false;
-		while (!estCompat(cod1))
+		while (!estCompat(cod1, p.nbCoups()))
 			if (!passeCodeSuivantLexico(cod1))
 				return false;
 		return true;
@@ -69,14 +69,40 @@ public class MancheOrdinateur {
 		return true;
 	}
 
-	private boolean estCompat(Code cod1) {
-		for (int i = 0; i < p.nbCoups(); i++) {
+	private boolean estCompat(Code cod1, int max) {
+		for (int i = 0; i < max; i++) {
 			int[] res = UtMM.nbBienMalPlaces(cod1, p.getCod(i));
 			if (res[0] != p.getRep(i)[0] || res[1] != p.getRep(i)[1]) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	private void afficheErreurs() {
+		Code codMot;
+		if (Partie.graphicalMode)
+			codMot = Fenetre.askCode();
+		else {
+			Ut.afficherSL("=================\nErreur ou triche !");
+			Ut.afficherSL("Saisir votre code : ");
+			codMot = UtMM.saisirCode();
+		}
+		for (int i = 0; i < p.nbCoups(); i++) {
+			if (p.getCod(i) != null) {
+				if (i > 0 && !estCompat(p.getCod(i), i + 1)) {
+					UtMM.showMsg("Code impossible à trouver. Erreur ou triche au coups " + (i + 1)
+							+ " !", "Erreur");
+					return;
+				}
+				if (Couleur.entiersVersMot(p.getCod(i)).equals(Couleur.entiersVersMot(codMot))) {
+					UtMM.showMsg("Erreur au coups " + (i + 1) + ". Le code était le bon.",
+							"Erreur");
+					return;
+				}
+			}
+		}
+		UtMM.showMsg("Code impossible à trouver. Erreur ou triche au coups 1 !", "Erreur");
 	}
 
 	public int Joue() {
@@ -89,14 +115,7 @@ public class MancheOrdinateur {
 			p.addCoups();
 			p.addCod(new Code(UtMM.copieTab(p.getLastCod().cod)));
 			if (!passeCodeSuivantLexicoCompat(p.getCod())) {
-				if (Partie.graphicalMode)
-					Fenetre.ShowDialog("Erreur ou triche sur le nombre de BP et MP !", "Erreur");
-				else
-					Ut.afficherSL("Erreur ou triche !");
-				/*
-				 * Ut.afficher("Saisir votre code : "); String mot = Ut.saisirChaine();
-				 * afficheErreurs(mot, cod, rep, nbCoups, lgCode, tabCouleurs);
-				 */
+				afficheErreurs();
 				return 0;
 			}
 			if (!Partie.graphicalMode)
@@ -107,21 +126,18 @@ public class MancheOrdinateur {
 		if (!Partie.graphicalMode)
 			Ut.clearConsole();
 		p.affichePlateau();
+		if (!passeCodeSuivantLexicoCompat(p.getCod())) {
+			afficheErreurs();
+			return 0;
+		}
 		if (p.nbCoups() == Plateau.nbEssaisMax() - 1 && p.getRep()[0] != Code.lgCode) {
-			if (Partie.graphicalMode)
-				Fenetre.ShowDialog("L'ordinateur n'a pas trouvé votre code !", "Manche terminée");
-			else
-				Ut.afficherSL("Fin manche ordi. L'ordinateur n'a pas trouvé votre code !");
+			UtMM.showMsg("L'ordinateur n'a pas trouvé votre code !", "Manche terminée");
 			return Plateau.nbEssaisMax() + p.getRep()[1]
 					+ (2 * (Code.lgCode - (p.getRep()[0] + p.getRep()[1])));
 		}
-		if (Partie.graphicalMode)
-			Fenetre.ShowDialog(
-					"L'ordinateur a trouvé votre code en " + (p.nbCoups() + 1) + " coups !",
-					"Manche terminée");
-		else
-			Ut.afficherSL("Fin manche ordi. L'ordinateur a trouvé votre code en "
-					+ (p.nbCoups() + 1) + " coups !");
+
+		UtMM.showMsg("L'ordinateur a trouvé votre code en " + (p.nbCoups() + 1) + " coups !",
+				"Manche terminée");
 		return p.nbCoups() + 1;
 	}
 }

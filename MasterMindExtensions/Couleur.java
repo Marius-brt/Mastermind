@@ -45,4 +45,13 @@ public class Couleur {
 		}
 		return cs;
 	}
+
+	public static String listElem(Code cod) {
+		String r = "(";
+		for (int c : cod.cod)
+			r += tabCouleurs[c] + ",";
+		if (r.length() > 1)
+			r = r.substring(0, r.length() - 1);
+		return r + ")";
+	}
 }

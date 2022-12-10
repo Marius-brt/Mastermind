@@ -22,7 +22,6 @@ Version extensions
 
 	Le MasterMind Graphique utilise 3 couleurs (Rouge = r, Bleu = b, Vert = v).
 	Le code couleur s'écrit donc avec la première lettre de chaque couleur.
-	Le MasterMind Graphique autorise 5 essais par manche.
 
 	Utilisation de l'extension Statistiques :
 

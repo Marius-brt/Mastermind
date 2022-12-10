@@ -21,14 +21,7 @@ public class MancheHumain {
 		} else {
 			int cp = p.nbCoups() + 1;
 			Ut.afficherSL(((Integer) cp).toString() + (cp == 1 ? "ère" : "ème") + " proposition");
-			Ut.afficher("Veuillez saisir un code : ");
-			String c = Ut.saisirChaine();
-			while (!UtMM.codeCorrect(c)) {
-				Ut.afficherSL("Code incorrecte !");
-				Ut.afficher("Veuillez saisir un code : ");
-				c = Ut.saisirChaine();
-			}
-			return new Code(c);
+			return UtMM.saisirCode();
 		}
 	}
 
@@ -57,22 +50,13 @@ public class MancheHumain {
 			Ut.clearConsole();
 		p.affichePlateau();
 		if (p.nbCoups() == Plateau.nbEssaisMax() - 1 && p.getRep()[0] != Code.lgCode) {
-			if (Partie.graphicalMode)
-				Fenetre.ShowDialog("Vous n'avez pas trouvé le code de l'ordinateur ! Le code était "
-						+ Couleur.entiersVersMot(s), "Manche terminée");
-			else
-				Ut.afficherSL("Fin manche. Vous n'avez pas trouvé. Le code était "
-						+ Couleur.entiersVersMot(s));
+			UtMM.showMsg("Vous n'avez pas trouvé le code de l'ordinateur ! Le code était "
+					+ Couleur.listElem(s), "Manche terminée");
 			return Plateau.nbEssaisMax() + p.getRep()[1]
 					+ (2 * (Code.lgCode - (p.getRep()[0] + p.getRep()[1])));
 		}
-		if (Partie.graphicalMode)
-			Fenetre.ShowDialog("Bravo vous avez trouvé le code de l'ordinateur en "
-					+ (p.nbCoups() + 1) + " coups ! (" + Couleur.entiersVersMot(s) + ")",
-					"Manche terminée");
-		else
-			Ut.afficherSL("Bravo vous avez trouvé le code de l'ordinateur en " + (p.nbCoups() + 1)
-					+ " coups ! (" + Couleur.entiersVersMot(s) + ")");
+		UtMM.showMsg("Bravo vous avez trouvé le code de l'ordinateur en " + (p.nbCoups() + 1)
+				+ " coups ! " + Couleur.listElem(s), "Manche terminée");
 		return p.nbCoups() + 1;
 	}
 }

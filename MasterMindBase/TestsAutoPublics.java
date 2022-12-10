@@ -31,6 +31,11 @@ public class TestsAutoPublics {
 	note += runTest(TestsAutoPublics::testCodeAleat, "testCodeAleat",1);
 	note += runTest(TestsAutoPublics::testCodeCorrect, "testCodeCorrect",1);
 	note += runTest(TestsAutoPublics::testMotVersEntiers, "testMotVersEntiers",1);
+
+	note += runTest(TestsAutoPublics::testNbBienPlaces, "testNbBienPlaces",1);
+	note += runTest(TestsAutoPublics::testTabFrequence1, "testTabFrequence1",1);
+	note += runTest(TestsAutoPublics::testNbCommuns1, "testNbCommuns1",1);
+	note += runTest(TestsAutoPublics:: testNbBienMalPlaces1, "testNbBienMalPlaces1",1);
 	
 	note +=runTest(TestsAutoPublics::testRepCorrecte, "testRepCorrecte",1);
         note +=runTest(TestsAutoPublics::testPasseCodeSuivantLexico2, "testPasseCodeSuivantLexico2",1);
@@ -46,24 +51,24 @@ public class TestsAutoPublics {
 	ExecutorService executorService = Executors.newSingleThreadExecutor(); //si on submit à nouveau sans re créer ça timeout aussi pour tests suivants
 	Future<Double> future = executorService.submit(r);
 	double note = 0;
-	 try {
+	try {
 	     
-	     note+= future.get(1L, TimeUnit.SECONDS)*bareme; //get renvoie entre 0 et 1
-	     System.out.println("****************************************************");
-	     System.out.println(s + " terminé, note: " + note + "/" + bareme);
-	     System.out.println("****************************************************");
+	    note+= future.get(1L, TimeUnit.SECONDS)*bareme; //get renvoie entre 0 et 1
+	    System.out.println("****************************************************");
+	    System.out.println(s + " terminé, note: " + note + "/" + bareme);
+	    System.out.println("****************************************************");
 
-	 } catch (TimeoutException e) {
-	     System.out.println("****************************************************");
-	     System.out.println(s + " timeout");
-	     System.out.println("****************************************************");
-	 } catch (InterruptedException | ExecutionException e) {
-	     System.out.println("****************************************************");
-	     System.out.println(s + " erreur " + e.getMessage());
-	     System.out.println("****************************************************");
+	} catch (TimeoutException e) {
+	    System.out.println("****************************************************");
+	    System.out.println(s + " timeout");
+	    System.out.println("****************************************************");
+	} catch (InterruptedException | ExecutionException e) {
+	    System.out.println("****************************************************");
+	    System.out.println(s + " erreur " + e.getMessage());
+	    System.out.println("****************************************************");
         }
-	 executorService.shutdownNow();
-	 return note;
+	executorService.shutdownNow();
+	return note;
     }
 
     
@@ -132,13 +137,13 @@ public class TestsAutoPublics {
 	return 1;
     }
 
-     private static double testCodeCorrect() {
-	 char[] tCoul = {'A','B','C'};
-	 if ( MM.codeCorrect("ABABCDA", 7, tCoul) )
-	     return 0;
-	 else
-	     return 1;
-     }
+    private static double testCodeCorrect() {
+	char[] tCoul = {'A','B','C'};
+	if ( MM.codeCorrect("ABABCDA", 7, tCoul) )
+	    return 0;
+	else
+	    return 1;
+    }
 
     private static double testMotVersEntiers() {
 	char[] tCoul = {'A','B','C'};
@@ -149,7 +154,126 @@ public class TestsAutoPublics {
 	    return 0;
     }
 
-     private static double testRepCorrecte() {
+    private static double testNbBienPlaces() {
+
+	int[] t1 = {1,0,2,0};
+        int[] t2 = {0,1,0,0};
+
+	int[] t3 = {2,2,2};
+        int[] t4 = {2,2,2};
+
+	int[] t5 = {0,1,2};
+        int[] t6 = {1,2,0};
+
+	int[] t7 = {0,1,0,1,1,0,1,0};
+        int[] t8 = {1,1,1,0,0,0,1,0};
+
+	double res = 0;
+	if (MM.nbBienPlaces(t1,t2)  == 1)
+	    res+=0.25;
+
+	if (MM.nbBienPlaces(t3,t4)  == 3)
+	    res+=0.25;
+		
+	if (MM.nbBienPlaces(t5,t6)  == 0)
+	    res+=0.25;
+		
+	if (MM.nbBienPlaces(t7,t8)  == 4)
+	    res+=0.25;
+
+	return res;
+
+    }
+
+    private static double testTabFrequence1(){
+	int[]t1 = {0,1,0,1};
+	int nbc1 = 2;
+	int[]res1= {2,2};
+
+	int[]t2 = {0,1,0,1};
+	int nbc2 = 3;
+	int[]res2= {2,2,0};
+
+	double res=0;
+	if(Arrays.equals(MM.tabFrequence(t1,nbc1),res1))
+	    res+=0.5;
+
+	if(Arrays.equals(MM.tabFrequence(t2,nbc2),res2))
+	    res+=0.5;
+
+	return res;
+    }
+
+
+
+    private static double testNbCommuns1(){
+
+	//tests avec longueur des tableaux supérieure à nb couleurs
+	int[]t1a = {0,1,2};
+	int[]t1b = {2,0,1};
+	int nbc1 = 3;
+	 
+	int[]t2a = {0,0,1,1,2,2};
+	int[]t2b = {2,2,2,2,2,2};
+	int nbc2 = 3;
+
+	int[]t3a = {0,0,0,0,0,0,0,1,1,2,2,2,2,2,2,2,2,2};
+	int[]t3b = {1,1,1,1,1,2,2,2,0,0};
+	int nbc3 = 3;
+
+	int[]t4a = {0,0,0,0,0,0,0,1,1,2,2,2,2,2,2,2,2,2};
+	int[]t4b = {0,0,0,0,0,0,0,1,1,2,2,2,2,2,2,2,2,2};
+	int nbc4 = 3;
+
+	double res = 0;
+	if(MM.nbCommuns(t1a,t1b,nbc1)==3)
+	    res+=0.25;
+	if(MM.nbCommuns(t2a,t2b,nbc2)==2)
+	    res+=0.25;
+	if(MM.nbCommuns(t3a,t3b,nbc3)==7)
+	    res+=0.25;
+	if(MM.nbCommuns(t4a,t4b,nbc4)==t4a.length)
+	    res+=0.25;
+
+	return res;
+    }
+
+    private static double testNbBienMalPlaces1(){
+	int[]t1a = {0,1,2};
+	int[]t1b = {2,0,1};
+	int nbc1 = 3;
+	int[]res1 = {0,3};
+
+
+	int[]t2a = {0,0,1,1,2,2};
+	int[]t2b = {2,2,2,2,2,2};
+	int nbc2 = 3;
+	int[]res2 = {2,0};
+
+	int[]t3a = {1,0,2,0};
+	int[]t3b = {0,1,0,0};
+	int nbc3 = 3;
+	int[]res3 = {1,2};
+	// x   x   x x     x x     x       x
+	int[]t4a = {0,0,0,0,0,0,0,1,1,2,2,2,2,2,2,2,2,2};
+	int[]t4b = {0,2,0,1,0,0,2,2,1,2,0,1,2,0,0,0,2,1};
+	int nbc4 = 3;
+	int[]res4 = {8,7};
+
+	double res = 0;
+	if(Arrays.equals(MM.nbBienMalPlaces(t1a,t1b,nbc1),res1))
+	    res+=0.25;
+	if(Arrays.equals(MM.nbBienMalPlaces(t2a,t2b,nbc2),res2))
+	    res+=0.25;
+	if(Arrays.equals(MM.nbBienMalPlaces(t3a,t3b,nbc3),res3))
+	    res+=0.25;
+	if(Arrays.equals(MM.nbBienMalPlaces(t4a,t4b,nbc4),res4))
+	    res+=0.25;
+
+	return res;
+    }
+
+    private static double testRepCorrecte() {
 
 	int[] t1 = {0, 0};
 	int[] t2 = {-1, 2};

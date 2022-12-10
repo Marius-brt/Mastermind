@@ -26,7 +26,7 @@ public class Fenetre extends JFrame {
 		JButton button2 = Button("Ok");
 		JTextField codeTextField = new JTextField();
 		JTextField numTextField = new JTextField();
-		JPanel codeField = textField(codeTextField, new JLabel("code"), 10,
+		JPanel codeField = textField(codeTextField, new JLabel("Proposer un code"), 10,
 				"^[a-zA-Z]{0," + Code.lgCode + "}$");
 		JPanel numberField = textField(numTextField, numberText, 10, "^[0-9]*$");
 
@@ -104,6 +104,16 @@ public class Fenetre extends JFrame {
 
 	public static void ShowDialog(String msg, String title) {
 		JOptionPane.showMessageDialog(getInstance(), msg, title, JOptionPane.DEFAULT_OPTION);
+	}
+
+	public static Code askCode() {
+		String s = "";
+		while (!UtMM.codeCorrect(s)) {
+			s = (String) JOptionPane.showInputDialog(getInstance(),
+					"Erreur ou triche ! Veuillez saisir votre code.", "", JOptionPane.PLAIN_MESSAGE,
+					null, null, "");
+		}
+		return new Code(s);
 	}
 
 	public static void createFenetre(int w, int h, String titre) {
