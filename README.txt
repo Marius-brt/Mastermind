@@ -1,3 +1,8 @@
+Répartition :
+
+- Alan Terrier : fonction "Outils de base"
+- Marius Brouty : Manche Humain et Ordinateur + extensions
+
 Infos générales :
 
 - BP = Bien Placé
@@ -7,16 +12,16 @@ Version de base :
 
 	Pour tester le MasterMind de base :
 
-	1 - Se rendre dans le dossier "MasterMindBase"
+	1 - Se rendre dans le dossier "Base"
 	2 - Executer la commande "javac *.java && java MM" pour linux ou "javac *.java; java MM" pour Windows
 
-Version extensions
+Version extensions :
 
 	Tout les fichiers d'extension ont été mis dans le même dossier afin de ne pas à avoir de problème avec les packages.
 
 	Pour tester le MasterMind avec extensions :
 
-	1 - Se rendre dans le dossier "MasterMindExtensions"
+	1 - Se rendre dans le dossier "Extensions"
 	2 - Executer la commande "javac *.java && java MainMasterMind" pour linux ou "javac *.java; java MainMasterMind" pour Windows
 	3 - Choisir la version Graphique ou Console (y = oui, n = non)
 
@@ -60,7 +65,7 @@ Version extensions
 	3 - On crée un code avec uniquement la lettre la plus présente dans le code obtenu dans l'étape précédente (on l'appelera code B). On prend ensuite une autre
 	couleur du code A et on la place à la première position du code B. Ensuite on vérifie :
 		- Si le nombre de BP est supérieur à ceux du code B alors la couleur est à la bonne position.
-		- Si le nombre de BP est inférieur à ceux du code B alors c'est une couleur de fond à la place cette couleur
+		- Si le nombre de BP est inférieur à ceux du code B alors c'est une couleur de fond à la place cette couleur.
 	On répète cette étape jusqu'à que toutes les couleurs est été placées
 
 	Explications des fichiers :
