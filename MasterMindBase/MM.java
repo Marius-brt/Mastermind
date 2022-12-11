@@ -364,19 +364,18 @@ public class MM {
 	 */
 	public static boolean passeCodeSuivantLexico(int[] cod1, int nbCouleurs) {
 		int i = cod1.length - 1;
-		while (i >= 0 && cod1[i] == nbCouleurs - 1) {
+		while (i >= 0 && cod1[i] == nbCouleurs - 1)
 			i--;
-		}
 		if (i < 0) {
-			for (int j = 0; j < cod1.length; j++) {
+			int j = -1;
+			while (++j < cod1.length)
 				cod1[j] = 0;
-			}
 			return false;
 		}
 		cod1[i]++;
-		for (int j = i + 1; j < cod1.length; j++) {
+		int j = i;
+		while (++j < cod1.length)
 			cod1[j] = 0;
-		}
 		return true;
 	}
 
@@ -394,11 +393,11 @@ public class MM {
 	 */
 	public static boolean estCompat(int[] cod1, int[][] cod, int[][] rep, int nbCoups,
 			int nbCouleurs) {
-		for (int i = 0; i < nbCoups; i++) {
+		int i = -1;
+		while (++i < nbCoups) {
 			int[] res = nbBienMalPlaces(cod1, cod[i], nbCouleurs);
-			if (res[0] != rep[i][0] || res[1] != rep[i][1]) {
+			if (res[0] != rep[i][0] || res[1] != rep[i][1])
 				return false;
-			}
 		}
 		return true;
 	}
@@ -441,8 +440,6 @@ public class MM {
 	 */
 	public static int mancheOrdinateur(int lgCode, char[] tabCouleurs, int numManche,
 			int nbEssaisMax) {
-		if (nbEssaisMax == 0)
-			return 0;
 		Ut.afficherSL("Manche ordinateur");
 		int nbCoups = 0;
 		int[][] cod = new int[nbEssaisMax][];
@@ -497,6 +494,10 @@ public class MM {
 		return saisirEntierPositif();
 
 	}
+
+	/*
+	 * Saisir un entier positif ou 0
+	 */
 
 	public static int saisirEntierPos() {
 		Ut.afficher("Saisir un entier positif : ");

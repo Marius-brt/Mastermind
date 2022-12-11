@@ -53,28 +53,27 @@ public class MancheOrdinateur {
 
 	public static boolean passeCodeSuivantLexico(Code cod1) {
 		int i = Code.lgCode - 1;
-		while (i >= 0 && cod1.cod[i] == Couleur.nbCouleurs() - 1) {
+		while (i >= 0 && cod1.cod[i] == Couleur.nbCouleurs() - 1)
 			i--;
-		}
 		if (i < 0) {
-			for (int j = 0; j < Code.lgCode; j++) {
+			int j = -1;
+			while (++j < Code.lgCode)
 				cod1.cod[j] = 0;
-			}
 			return false;
 		}
 		cod1.cod[i]++;
-		for (int j = i + 1; j < Code.lgCode; j++) {
+		int j = i;
+		while (++j < Code.lgCode)
 			cod1.cod[j] = 0;
-		}
 		return true;
 	}
 
 	private boolean estCompat(Code cod1, int max) {
-		for (int i = 0; i < max; i++) {
+		int i = -1;
+		while (++i < max) {
 			int[] res = UtMM.nbBienMalPlaces(cod1, p.getCod(i));
-			if (res[0] != p.getRep(i)[0] || res[1] != p.getRep(i)[1]) {
+			if (res[0] != p.getRep(i)[0] || res[1] != p.getRep(i)[1])
 				return false;
-			}
 		}
 		return true;
 	}
