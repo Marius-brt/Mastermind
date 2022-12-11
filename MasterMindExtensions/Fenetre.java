@@ -19,6 +19,9 @@ public class Fenetre extends JFrame {
 	private static JPanel mainPanel = new JPanel(new BorderLayout());
 	public static ColorsPanel colorsPanel = new ColorsPanel();
 
+	/*
+	 * Création de la fenêtre avec les boutons, textes et inputs
+	 */
 	private Fenetre(int w, int h, String titre) {
 		setTitle(titre);
 		setSize(w, h);
@@ -76,6 +79,9 @@ public class Fenetre extends JFrame {
 		thereIsInstance = true;
 	}
 
+	/*
+	 * Bouton personnaliser
+	 */
 	private JButton Button(String text) {
 		Font font = new Font("Arial", Font.BOLD, 15);
 		JButton button = new JButton(text);
@@ -89,6 +95,9 @@ public class Fenetre extends JFrame {
 		return button;
 	}
 
+	/*
+	 * Input personnaliser avec regex
+	 */
 	private JPanel textField(JTextField field, JLabel label, int columns, String regex) {
 		JPanel panel = new JPanel(new BorderLayout());
 		Font fieldFont = new Font("Arial", Font.PLAIN, 20);
@@ -103,10 +112,16 @@ public class Fenetre extends JFrame {
 		return panel;
 	}
 
+	/*
+	 * Afficher une popup avec du texte
+	 */
 	public static void ShowDialog(String msg, String title) {
 		JOptionPane.showMessageDialog(getInstance(), msg, title, JOptionPane.DEFAULT_OPTION);
 	}
 
+	/*
+	 * Demander un code à l'utilisateur
+	 */
 	public static Code askCode() {
 		String s = "";
 		while (!UtMM.codeCorrect(s)) {
@@ -117,15 +132,24 @@ public class Fenetre extends JFrame {
 		return new Code(s);
 	}
 
+	/*
+	 * Crée une instance de la fenêtre
+	 */
 	public static void createFenetre(int w, int h, String titre) {
 		if (!thereIsInstance)
 			THEFENETRE = new Fenetre(w, h, titre);
 	}
 
+	/*
+	 * Récupère l'instance de la fenêtre
+	 */
 	public static Fenetre getInstance() {
 		return Fenetre.THEFENETRE;
 	}
 
+	/*
+	 * Changer le type de round (codeur ou décodeur)
+	 */
 	public static void setRoundType(boolean isHumanRound) {
 		if (isHumanRound) {
 			round.setText("Vous êtes le codeur");
@@ -139,6 +163,9 @@ public class Fenetre extends JFrame {
 		getInstance().revalidate();
 	}
 
+	/*
+	 * Afficher le gagant
+	 */
 	public static void showEnd(int scoreOrdi, int scoreHum) {
 		getInstance().getContentPane().remove(mainPanel);
 		JPanel mainPanel = new JPanel(new BorderLayout());

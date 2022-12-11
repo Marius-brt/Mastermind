@@ -1,6 +1,9 @@
 public class Couleur {
 	private static char[] tabCouleurs;
 
+	/*
+	 * Initialisation du tableau de couleurs
+	 */
 	public static void setTabCouleurs(char[] colors) {
 		tabCouleurs = colors;
 	}
@@ -66,6 +69,9 @@ public class Couleur {
 		return cs;
 	}
 
+	/*
+	 * Affichage d'un code
+	 */
 	public static String listElem(Code cod) {
 		String r = "(";
 		for (int c : cod.cod)

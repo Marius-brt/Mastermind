@@ -31,6 +31,10 @@ public class MainMasterMind {
 			Ut.clearConsole();
 		}
 
+		/*
+		 * Fait tourner la partie dans un thread séparé car sinon impossible de faire tourner le
+		 * mode graphique et le jeux en même temps
+		 */
 		Thread t = new Partie(manches);
 		t.run();
 	}

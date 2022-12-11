@@ -10,6 +10,9 @@ public class Partie extends Thread {
 		this.nbManches = nbManches;
 	}
 
+	/*
+	 * Lancement de la partie. Override de la méthode run() de la classe Thread
+	 */
 	@Override
 	public void run() {
 		for (numManche = 1; numManche <= nbManches; numManche++) {

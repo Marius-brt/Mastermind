@@ -1,6 +1,9 @@
 import java.util.function.Function;
 
 public class Statistics {
+	/*
+	 * Algorithme de base
+	 */
 	private static int BasicSolver(Code s) {
 		MancheOrdinateur mo = new MancheOrdinateur();
 		mo.p.addCod(new Code());
@@ -14,12 +17,18 @@ public class Statistics {
 		return mo.p.nbCoups() + 1;
 	}
 
+	/*
+	 * Met une couleur en position i
+	 */
 	private static Code putColor(int bg, int cursor, int i) {
 		int[] c = UtMM.initTab(Code.lgCode, bg);
 		c[i] = cursor;
 		return new Code(c);
 	}
 
+	/*
+	 * Algorithme CFC
+	 */
 	private static int CFCsolver(Code s) {
 		MancheOrdinateur mo = new MancheOrdinateur();
 		int[] colorsCount = new int[Couleur.nbCouleurs()];
@@ -98,6 +107,9 @@ public class Statistics {
 		Ut.afficherSL("[TOTAL] " + codSum + " codes");
 	}
 
+	/*
+	 * Permet de tester les algorithmes
+	 */
 	private static void Test(String name, Function<Code, Integer> func) {
 		Code cod = new Code();
 		int c = 0, sum = 0, max = 0;
@@ -117,6 +129,9 @@ public class Statistics {
 		PrintResult("- " + name, c, sum, max, maxCod, endTime - startTime);
 	}
 
+	/*
+	 * Affiche les résultats
+	 */
 	private static void PrintResult(String algoName, int count, int sum, int max, String maxCod,
 			long duration) {
 		Ut.afficherSL(algoName + "\nMoyenne : " + (float) (sum / count) + " propositions | Max : "

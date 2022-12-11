@@ -4,6 +4,9 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 public class ColorsPanel extends JPanel {
+	/*
+	 * Dessine les points et les textes
+	 */
 	public void paintComponent(Graphics g) {
 		for (int i = 0; i < Point.numberInstances(); i++) {
 			Point p = Point.getInstance(i);

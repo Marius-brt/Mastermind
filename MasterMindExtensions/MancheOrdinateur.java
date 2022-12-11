@@ -1,6 +1,9 @@
 public class MancheOrdinateur {
 	public Plateau p = new Plateau();
 
+	/*
+	 * Saisie d'un nombre positif dans le mode graphique
+	 */
 	private int saisirPositifGraph(String text) {
 		Partie.lastText = null;
 		Fenetre.numberText.setText(text);
@@ -20,6 +23,9 @@ public class MancheOrdinateur {
 		return v;
 	}
 
+	/*
+	 * Réponse de BP et MP du joueur en mode graphique ou console
+	 */
 	private int[] reponseHumain() {
 		int bp, mp = 0;
 		if (Partie.graphicalMode) {
@@ -42,6 +48,9 @@ public class MancheOrdinateur {
 		return new int[] {bp, mp};
 	}
 
+	/*
+	 * Passe au code suivant lexicographiquement compatible avec les réponses
+	 */
 	public boolean passeCodeSuivantLexicoCompat(Code cod1) {
 		if (!passeCodeSuivantLexico(cod1))
 			return false;
@@ -51,6 +60,9 @@ public class MancheOrdinateur {
 		return true;
 	}
 
+	/*
+	 * Passe au code suivant lexicographiquement
+	 */
 	public static boolean passeCodeSuivantLexico(Code cod1) {
 		int i = Code.lgCode - 1;
 		while (i >= 0 && cod1.cod[i] == Couleur.nbCouleurs() - 1)
@@ -68,6 +80,9 @@ public class MancheOrdinateur {
 		return true;
 	}
 
+	/*
+	 * Vérifie si le code est compatible avec les réponses
+	 */
 	private boolean estCompat(Code cod1, int max) {
 		int i = -1;
 		while (++i < max) {
@@ -77,6 +92,10 @@ public class MancheOrdinateur {
 		}
 		return true;
 	}
+
+	/*
+	 * Extension affichage des erreurs du joueur dans la saisie des BP et MP
+	 */
 
 	private void afficheErreurs() {
 		Code codMot;
@@ -103,6 +122,10 @@ public class MancheOrdinateur {
 		}
 		UtMM.showMsg("Code impossible à trouver. Erreur ou triche au coups 1 !", "Erreur");
 	}
+
+	/*
+	 * Joue la manche de l'ordinateur
+	 */
 
 	public int Joue() {
 		if (!Partie.graphicalMode)

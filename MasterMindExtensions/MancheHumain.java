@@ -1,6 +1,9 @@
 public class MancheHumain {
 	private Plateau p = new Plateau();
 
+	/*
+	 * Retourne le code proposé par l'humain
+	 */
 	private Code propositionCodeHumain() {
 		Partie.lastText = null;
 		if (Partie.graphicalMode) {
@@ -25,6 +28,9 @@ public class MancheHumain {
 		}
 	}
 
+	/*
+	 * Joue la manche humain
+	 */
 	public int Joue() {
 		if (!Partie.graphicalMode)
 			Ut.afficherSL("Manche humain");

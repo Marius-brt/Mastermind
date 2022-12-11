@@ -1,4 +1,7 @@
 public class UtMM {
+	/*
+	 * Initialise un tableau de nb cases à la valeur val
+	 */
 	public static int[] initTab(int nb, int val) {
 		int[] t = new int[nb];
 		for (int i = 0; i < nb; i++)
@@ -6,6 +9,9 @@ public class UtMM {
 		return t;
 	}
 
+	/*
+	 * Copie un tableau
+	 */
 	public static int[] copieTab(int[] tab) {
 		int[] c = new int[tab.length];
 		for (int i = 0; i < tab.length; i++)
@@ -13,6 +19,9 @@ public class UtMM {
 		return c;
 	}
 
+	/*
+	 * Retourne un code aléatoire
+	 */
 	public static int[] codeAleat() {
 		int[] c = new int[Code.lgCode];
 		for (int i = 0; i < Code.lgCode; i++)
@@ -20,12 +29,18 @@ public class UtMM {
 		return c;
 	}
 
+	/*
+	 * Retourne le nombre de BP et MP entre deux codes
+	 */
 	public static int[] nbBienMalPlaces(Code cod1, Code cod2) {
 		int bp = nbBienPlaces(cod1, cod2);
 		int mp = nbCommuns(cod1, cod2) - bp;
 		return new int[] {bp, mp < 0 ? 0 : mp};
 	}
 
+	/*
+	 * Retourne le nombre de BP entre deux codes
+	 */
 	public static int nbBienPlaces(Code cod1, Code cod2) {
 		int c = 0;
 		for (int x = 0; x < Code.lgCode; x++)
@@ -34,6 +49,9 @@ public class UtMM {
 		return c;
 	}
 
+	/*
+	 * Retourne la fréquence des couleurs dans un code
+	 */
 	public static int[] tabFrequence(Code cod) {
 		int[] r = new int[Couleur.nbCouleurs()];
 		for (int x = 0; x < Code.lgCode; x++)
@@ -41,6 +59,9 @@ public class UtMM {
 		return r;
 	}
 
+	/*
+	 * Retourne le nombre de couleurs communes entre deux codes
+	 */
 	public static int nbCommuns(Code cod1, Code cod2) {
 		int[] f1 = tabFrequence(cod1);
 		int[] f2 = tabFrequence(cod2);
@@ -55,6 +76,9 @@ public class UtMM {
 		return c;
 	}
 
+	/*
+	 * Test si le format du code est correct
+	 */
 	public static boolean codeCorrect(String codMot) {
 		if (codMot.length() != Code.lgCode) {
 			if (!Partie.graphicalMode)
@@ -129,6 +153,10 @@ public class UtMM {
 		return saisirEntierPairPositif();
 	}
 
+	/*
+	 * Saisir un code dans la console
+	 */
+
 	public static Code saisirCode() {
 		Ut.afficher("Veuillez saisir un code : ");
 		String c = Ut.saisirChaine();
@@ -140,6 +168,9 @@ public class UtMM {
 		return new Code(c);
 	}
 
+	/*
+	 * Verifie si un caractere est present dans un tableau de caractere
+	 */
 	public static boolean estPresent(char[] t, char c) {
 		for (char e : t)
 			if (e == c)
@@ -147,6 +178,9 @@ public class UtMM {
 		return false;
 	}
 
+	/*
+	 * Saisie d'un entier compris entre min et max
+	 */
 	public static int saisirEntierMinMax(int min, int max) {
 		Ut.afficher("Saisir un entier entre " + min + " et " + max + " : ");
 		int i = Ut.saisirEntier();
@@ -161,6 +195,9 @@ public class UtMM {
 		return i;
 	}
 
+	/*
+	 * Affiche un message dans la console ou dans une popup selon le mode graphique ou non
+	 */
 	public static void showMsg(String msg, String title) {
 		if (Partie.graphicalMode)
 			Fenetre.ShowDialog(msg, title);
