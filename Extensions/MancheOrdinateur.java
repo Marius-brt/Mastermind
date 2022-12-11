@@ -108,14 +108,14 @@ public class MancheOrdinateur {
 		}
 		for (int i = 0; i < p.nbCoups(); i++) {
 			if (p.getCod(i) != null) {
-				if (i > 0 && !estCompat(p.getCod(i), i + 1)) {
-					UtMM.showMsg("Code impossible à trouver. Erreur ou triche au coups " + (i + 1)
-							+ " !", "Erreur");
-					return;
-				}
 				if (Couleur.entiersVersMot(p.getCod(i)).equals(Couleur.entiersVersMot(codMot))) {
 					UtMM.showMsg("Erreur au coups " + (i + 1) + ". Le code était le bon.",
 							"Erreur");
+					return;
+				}
+				if (i > 0 && !estCompat(p.getCod(i), i + 1)) {
+					UtMM.showMsg("Code impossible à trouver. Erreur ou triche au coups " + (i + 1)
+							+ " !", "Erreur");
 					return;
 				}
 			}

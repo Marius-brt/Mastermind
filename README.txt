@@ -13,7 +13,7 @@ Version de base :
 	Pour tester le MasterMind de base :
 
 	1 - Se rendre dans le dossier "Base"
-	2 - Executer la commande "javac *.java && java MM" pour linux ou "javac *.java; java MM" pour Windows
+	2 - Executer la commande "javac MM.java && java MM" pour linux ou "javac MM.java; java MM" pour Windows
 
 Version extensions :
 

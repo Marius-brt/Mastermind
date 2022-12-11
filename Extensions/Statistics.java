@@ -61,12 +61,12 @@ public class Statistics {
 		mo.p.addRep(fondRep);
 		while (mo.p.getRep()[0] != Code.lgCode && cursorPos < Code.lgCode
 				&& iCurs < Couleur.nbCouleurs()) {
-			if (iCurs == iFond || colorsCount[iCurs] == 0)
+			if (iCurs == iFond || colorsCount[iCurs] == 0) {
 				iCurs++;
-			else {
+			} else {
 				if (founds[cursorPos] != -1) {
 					cursorPos++;
-				} else if (iCurs < Code.lgCode) {
+				} else if (iCurs < Couleur.nbCouleurs()) {
 					mo.p.addCoups();
 					mo.p.addCod(putColor(iFond, iCurs, cursorPos));
 					int[] rep = UtMM.nbBienMalPlaces(s, mo.p.getCod());
@@ -94,7 +94,7 @@ public class Statistics {
 
 	public static void main(String[] args) {
 		Couleur.setTabCouleurs(Couleur.saisirCouleurs());
-		Plateau.setNbEssaisMax(1000);
+		Plateau.setNbEssaisMax(20);
 		Ut.afficherSL("Longueur code");
 		Code.lgCode = UtMM.saisirEntierPositif();
 
