@@ -14,8 +14,15 @@ public class Statistics {
 		return mo.p.nbCoups() + 1;
 	}
 
+	private static Code putColor(int bg, int cursor, int i) {
+		int[] c = UtMM.initTab(Code.lgCode, bg);
+		c[i] = cursor;
+		return new Code(c);
+	}
+
 	private static int CFCsolver(Code s) {
 		MancheOrdinateur mo = new MancheOrdinateur();
+		int[] colorsCount = new int[Couleur.nbCouleurs()];
 		mo.p.addCod(new Code());
 		mo.p.addRep(UtMM.nbBienMalPlaces(s, mo.p.getCod()));
 		while (mo.p.getRep()[0] + mo.p.getRep()[1] != Code.lgCode) {
@@ -30,30 +37,61 @@ public class Statistics {
 		}
 		if (mo.p.getRep()[0] == Code.lgCode)
 			return mo.p.nbCoups() + 1;
-
-
-		while (mo.p.getRep()[0] != Code.lgCode) {
-			mo.p.addCoups();
-			mo.p.addCod(new Code(UtMM.copieTab(mo.p.getLastCod().cod)));
-			mo.passeCodeSuivantLexicoCompat(mo.p.getCod());
-			mo.p.addRep(UtMM.nbBienMalPlaces(s, mo.p.getCod()));
+		for (int c : mo.p.getCod().cod)
+			colorsCount[c]++;
+		int iCurs = 0, iFond = 0, cursorPos = 0, max = 0;
+		int[] founds = UtMM.initTab(Code.lgCode, -1);
+		for (int i = 0; i < colorsCount.length; i++)
+			if (colorsCount[i] > max) {
+				max = colorsCount[i];
+				iFond = i;
+			}
+		mo.p.addCoups();
+		mo.p.addCod(new Code(String.valueOf(Couleur.charAt(iFond)).repeat(Code.lgCode)));
+		int[] fondRep = UtMM.nbBienMalPlaces(s, mo.p.getCod());
+		mo.p.addRep(fondRep);
+		while (mo.p.getRep()[0] != Code.lgCode && cursorPos < Code.lgCode
+				&& iCurs < Couleur.nbCouleurs()) {
+			if (iCurs == iFond || colorsCount[iCurs] == 0)
+				iCurs++;
+			else {
+				if (founds[cursorPos] != -1) {
+					cursorPos++;
+				} else if (iCurs < Code.lgCode) {
+					mo.p.addCoups();
+					mo.p.addCod(putColor(iFond, iCurs, cursorPos));
+					int[] rep = UtMM.nbBienMalPlaces(s, mo.p.getCod());
+					mo.p.addRep(rep);
+					if (mo.p.getRep()[0] > fondRep[0]) {
+						founds[cursorPos] = iCurs;
+						cursorPos = 0;
+						colorsCount[iCurs]--;
+						if (colorsCount[iCurs] == 0)
+							iCurs++;
+					} else {
+						if (mo.p.getRep()[0] < fondRep[0])
+							founds[cursorPos] = iFond;
+						cursorPos++;
+					}
+				}
+			}
 		}
+		int[] res = new int[Code.lgCode];
+		for (int i = 0; i < founds.length; i++)
+			res[i] = founds[i] == -1 ? iFond : founds[i];
+		mo.p.getCod().cod = new Code(res).cod;
 		return mo.p.nbCoups() + 1;
 	}
 
 	public static void main(String[] args) {
-		Couleur.setTabCouleurs(new char[] {'a', 'b', 'c'});
-		Plateau.setNbEssaisMax(1000);
-		Code.lgCode = 3;
-
 		Couleur.setTabCouleurs(Couleur.saisirCouleurs());
 		Plateau.setNbEssaisMax(1000);
 		Ut.afficherSL("Longueur code");
 		Code.lgCode = UtMM.saisirEntierPositif();
 
 		int codSum = (int) Math.pow(Couleur.nbCouleurs(), Code.lgCode);
-		Ut.afficherSL(codSum + " codes à tester...");
 		Ut.clearConsole();
+		Ut.afficherSL(codSum + " codes à tester...");
 		Ut.afficherSL("[RESULTATS]\n");
 		Test("Algo Basic", Statistics::BasicSolver);
 		Test("Algo CFC", Statistics::CFCsolver);

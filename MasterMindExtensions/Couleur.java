@@ -5,9 +5,17 @@ public class Couleur {
 		tabCouleurs = colors;
 	}
 
+	/*
+	 * Retourne le nombre de couleurs
+	 */
+
 	public static int nbCouleurs() {
 		return tabCouleurs.length;
 	}
+
+	/*
+	 * Retourne le code cod sous forme de tableau d'entiers
+	 */
 
 	public static int[] motVersEntiers(String codMot) {
 		int[] res = new int[codMot.length()];
@@ -18,6 +26,10 @@ public class Couleur {
 		return res;
 	}
 
+	/*
+	 * Retourne le code cod sous forme de chaîne de caractères
+	 */
+
 	public static String entiersVersMot(Code cod) {
 		String s = "";
 		for (int i = 0; i < Code.lgCode; i++)
@@ -25,9 +37,17 @@ public class Couleur {
 		return s;
 	}
 
+	/*
+	 * Retourne la couleur à l'indice i dans le tableau tabCouleurs
+	 */
+
 	public static char charAt(int i) {
 		return tabCouleurs[i];
 	}
+
+	/*
+	 * Saisie des couleurs
+	 */
 
 	public static char[] saisirCouleurs() {
 		Ut.afficherSL("Renseignez le nombre de couleurs");

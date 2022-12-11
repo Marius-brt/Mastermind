@@ -46,6 +46,23 @@ Version extensions
 	3 - Rentrer les couleurs et la longueur du code (attention l'ordre des couleurs défini l'ordre lexicographique)
 	4 - Attendre la fin des tests
 
+	Algorithme CFC :
+
+	L'algorithme CFC est présent dans le fichier "Statistics.java". On peut le tester en utilisant l'extension Statistiques expliqué ci-dessus.
+	L'algo CFC utilise environ 2 fois plus de coups que l'algo lexicographique. Celui-ci fonctionne comme ceci :
+
+	(Phase C)
+	1 - Dans un premier temps on remplis uniquement le code de la première lettre de tabCouleurs puis on regarde le nombre de BP.
+	2 - On ajoute ensuite la lettre suivante X fois (X = lgCode - BP du code précédent). On répète l'opération 2 jusqu'à que la somme
+	de BP et MP du nouveau code soit égale à lgCode. Le code obtenu possède toutes les couleurs du code à trouver mais dans le mauvais ordre.
+	On appelera ce code A.
+	(Phase FC)
+	3 - On crée un code avec uniquement la lettre la plus présente dans le code obtenu dans l'étape précédente (on l'appelera code B). On prend ensuite une autre
+	couleur du code A et on la place à la première position du code B. Ensuite on vérifie :
+		- Si le nombre de BP est supérieur à ceux du code B alors la couleur est à la bonne position.
+		- Si le nombre de BP est inférieur à ceux du code B alors c'est une couleur de fond à la place cette couleur
+	On répète cette étape jusqu'à que toutes les couleurs est été placées
+
 	Explications des fichiers :
 
 	- "UtMM.java", "Plateau.java", "Partie.java", "MancheOrdinateur.java", "MancheHumain.java", "MainMasterMind.java",

@@ -57,6 +57,10 @@ public class Plateau {
 		return rep[nbCoups];
 	}
 
+	public int[] getLastRep() {
+		return rep[nbCoups - 1];
+	}
+
 	public int[] getRep(int i) {
 		return rep[i];
 	}
