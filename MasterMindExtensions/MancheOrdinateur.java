@@ -34,7 +34,7 @@ public class MancheOrdinateur {
 			}
 		}
 		if (bp + mp > Code.lgCode) {
-			Ut.afficherSL("Erreur de saisie veuillez recommencer !");
+			UtMM.showMsg("Erreur de saisie veuillez recommencer !", "Erreur");
 			return reponseHumain();
 		}
 		if (Partie.graphicalMode)

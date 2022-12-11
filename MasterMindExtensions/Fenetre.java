@@ -26,9 +26,10 @@ public class Fenetre extends JFrame {
 		JButton button2 = Button("Ok");
 		JTextField codeTextField = new JTextField();
 		JTextField numTextField = new JTextField();
-		JPanel codeField = textField(codeTextField, new JLabel("Proposer un code"), 10,
+		JPanel codeField = textField(codeTextField,
+				new JLabel("Proposer un code (" + Code.lgCode + " charactères)"), 10,
 				"^[a-zA-Z]{0," + Code.lgCode + "}$");
-		JPanel numberField = textField(numTextField, numberText, 10, "^[0-9]*$");
+		JPanel numberField = textField(numTextField, numberText, 10, "^\\d+$");
 
 		codePanel.add(button, BorderLayout.LINE_END);
 		codePanel.add(codeField, BorderLayout.LINE_START);
