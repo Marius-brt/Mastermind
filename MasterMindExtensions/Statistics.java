@@ -58,8 +58,6 @@ public class Statistics {
 		Test("Algo Basic", Statistics::BasicSolver);
 		Test("Algo CFC", Statistics::CFCsolver);
 		Ut.afficherSL("[TOTAL] " + codSum + " codes");
-
-
 	}
 
 	private static void Test(String name, Function<Code, Integer> func) {

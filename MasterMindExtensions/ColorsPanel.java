@@ -16,7 +16,5 @@ public class ColorsPanel extends JPanel {
 			GraphText t = GraphText.getInstance(i);
 			g.drawString(t.getText(), t.getPosx(), t.getPosy());
 		}
-
-
 	}
 }
