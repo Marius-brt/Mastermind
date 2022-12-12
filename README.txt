@@ -1,8 +1,3 @@
-Répartition :
-
-- Alan Terrier : fonction "Outils de base"
-- Marius Brouty : Manche Humain et Ordinateur + extensions
-
 Infos générales :
 
 - BP = Bien Placé
